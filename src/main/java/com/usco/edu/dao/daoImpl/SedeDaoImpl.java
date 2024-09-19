@@ -12,19 +12,17 @@ import com.usco.edu.entities.SedeCarnet;
 import com.usco.edu.resultSetExtractor.SedeCarnetSetExtractor;
 
 @Repository
-public class SedeDaoImpl implements ISedeDao{
-	
-	
+public class SedeDaoImpl implements ISedeDao {
+
 	@Autowired
 	@Qualifier("JDBCTemplateConsulta")
 	public JdbcTemplate jdbcTemplate;
 
 	@Override
 	public List<SedeCarnet> sedesAll() {
-		
+
 		String sql = "SELECT * FROM sede s WHERE s.sed_estado = 1";
 
-		
 		return jdbcTemplate.query(sql, new SedeCarnetSetExtractor());
 	}
 

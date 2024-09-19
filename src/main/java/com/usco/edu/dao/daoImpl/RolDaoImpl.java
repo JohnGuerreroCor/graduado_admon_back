@@ -22,11 +22,11 @@ import com.usco.edu.util.AuditoriaJdbcTemplate;
 
 @Repository
 public class RolDaoImpl implements IRolDao {
-	
+
 	@Autowired
 	@Qualifier("JDBCTemplateConsulta")
 	public JdbcTemplate jdbcTemplate;
-	
+
 	@Autowired
 	private AuditoriaJdbcTemplate jdbcComponent;
 
@@ -35,13 +35,13 @@ public class RolDaoImpl implements IRolDao {
 		String sql = "select * from acreditacion.rol_comite_autoevaluacion where rca_estado = 1 ORDER by rca_estamento";
 		return jdbcTemplate.query(sql, new RolSetExtractor());
 	}
-	
+
 	@Override
 	public List<Rol> rolByEstamento(String userdb, String estamento) {
-		String sql = "select * from acreditacion.rol_comite_autoevaluacion where rca_estamento = '" + estamento  + "' and rca_estado = 1 ORDER by rca_codigo";
+		String sql = "select * from acreditacion.rol_comite_autoevaluacion where rca_estamento = '" + estamento
+				+ "' and rca_estado = 1 ORDER by rca_codigo";
 		return jdbcTemplate.query(sql, new RolSetExtractor());
 	}
-
 
 	@Override
 	public int createRol(String userdb, Rol r) {

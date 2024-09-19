@@ -21,7 +21,7 @@ public class GraduadoServiceImpl implements IGraduadoService{
 	}
 
 	@Override
-	public List<EstudianteActivo> buscarGraduadoEstudianteActivo(String codigo, String userdb) {
+	public List<EstudianteActivo> buscarGraduadoEstudianteActivo(int codigo, String userdb) {
 		
 		return graduadoDao.buscarGraduadoEstudianteActivo(codigo, userdb);
 		

@@ -13,11 +13,10 @@ import com.usco.edu.resultSetExtractor.TipoDocumentoSetExtractor;
 
 @Repository
 public class TipoDocumentoDaoImpl implements ITipoDocumentoDao {
-	
+
 	@Autowired
 	@Qualifier("JDBCTemplateConsulta")
 	public JdbcTemplate jdbcTemplate;
-	
 
 	@Override
 	public List<TipoDocumento> obtenerTiposDocumentos(String userdb) {

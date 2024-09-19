@@ -28,7 +28,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.usco.edu.entities.DatosPersonales;
 import com.usco.edu.entities.EstadoCivil;
 import com.usco.edu.entities.GrupoSanguineo;
-import com.usco.edu.entities.Respuesta;
 import com.usco.edu.entities.SoporteExpedicion;
 import com.usco.edu.entities.TipoDocumento;
 import com.usco.edu.service.IDatosPersonalesService;
@@ -36,67 +35,70 @@ import com.usco.edu.service.IDatosPersonalesService;
 @RestController
 @RequestMapping(path = "datos")
 public class DatosPersonalesRestController {
-	
+
 	@Autowired
 	IDatosPersonalesService datosPersonalesService;
-	
-	@GetMapping(path = "obtener-datos-personales/{codigo}/{username}")
-	public List<DatosPersonales> obtenerPaises(@PathVariable int codigo, @PathVariable String username) {
-		
-		return datosPersonalesService.obtenerDatosPersonales(codigo, username);
-		
+
+	@GetMapping(path = "obtener-datos-personales/{id}")
+	public List<DatosPersonales> obtenerPaises(@PathVariable String id) {
+
+		return datosPersonalesService.obtenerDatosPersonales(id);
+
 	}
-	
-	@GetMapping(path = "obtener-tipos-identificacion/{username}")
-	public List<TipoDocumento> obtenerDepartamentos(@PathVariable String username) {
-		
-		return datosPersonalesService.obtenerIdentificacionTipos(username);
-		
+
+	@GetMapping(path = "obtener-tipos-identificacion")
+	public List<TipoDocumento> obtenerDepartamentos() {
+
+		return datosPersonalesService.obtenerIdentificacionTipos();
+
 	}
-	
-	@GetMapping(path = "obtener-estados-civil/{username}")
-	public List<EstadoCivil> obtenerEstadosCivil(@PathVariable String username) {
-		
-		return datosPersonalesService.obtenerEstadosCivil(username);
-		
+
+	@GetMapping(path = "obtener-estados-civil")
+	public List<EstadoCivil> obtenerEstadosCivil() {
+
+		return datosPersonalesService.obtenerEstadosCivil();
+
 	}
-	
-	@GetMapping(path = "obtener-grupos-sanguineos/{username}")
-	public List<GrupoSanguineo> obtenerGruposSanguineos(@PathVariable String username) {
-		
-		return datosPersonalesService.obtenerGruposSanguineos(username);
-		
+
+	@GetMapping(path = "obtener-grupos-sanguineos")
+	public List<GrupoSanguineo> obtenerGruposSanguineos() {
+
+		return datosPersonalesService.obtenerGruposSanguineos();
+
 	}
-	
+
 	@PutMapping(path = "actualizar-datos-contacto/{username}")
 	public int actualizarDatosContacto(@PathVariable String username, @RequestBody DatosPersonales contacto) {
-		
+
 		return datosPersonalesService.actualizarDatosContacto(username, contacto);
-		
+
 	}
-	
+
 	@PutMapping(path = "actualizar-datos-residencia/{username}")
 	public int actualizarDatosResidencia(@PathVariable String username, @RequestBody DatosPersonales residencia) {
-		
+
 		return datosPersonalesService.actualizarDatosResidencia(username, residencia);
-		
+
 	}
-	
+
 	@PutMapping(path = "actualizar-datos-expedicion/{username}")
 	public int actualizarDatosExpedicion(@PathVariable String username, @RequestBody DatosPersonales expedicion) {
-		
+
 		return datosPersonalesService.actualizarDatosExpedicion(username, expedicion);
-		
+
 	}
-	
+
 	@PostMapping("registrar-soporte-expedicion/{user}/{perCodigo}/{uaa}")
-	public void registrarSoporteExpedicion(@PathVariable String user, @PathVariable Long perCodigo, @RequestPart MultipartFile archivo, HttpServletRequest request, @PathVariable int uaa, @RequestParam String json) {
-		
+	public void registrarSoporteExpedicion(@PathVariable String user, @PathVariable Long perCodigo,
+			@RequestPart MultipartFile archivo, HttpServletRequest request, @PathVariable int uaa,
+			@RequestParam String json) {
+
 		ObjectMapper objectMapper = new ObjectMapper();
 		SoporteExpedicion soporteExpedicion;
 		try {
 			soporteExpedicion = objectMapper.readValue(json, SoporteExpedicion.class);
-			soporteExpedicion.setRuta(datosPersonalesService.subirSoporteExpedicion(archivo, perCodigo, uaa, user, request));
+			soporteExpedicion
+					.setRuta(datosPersonalesService.subirSoporteExpedicion(archivo, perCodigo, uaa, user, request));
 			System.out.println("Entro");
 			datosPersonalesService.registrarSoporteExpedicion(user, soporteExpedicion);
 
@@ -112,29 +114,23 @@ public class DatosPersonalesRestController {
 		}
 
 	}
-	
+
 	@PutMapping("actualizar-soporte-expedicion/{user}")
 	public void update(@PathVariable String user, @RequestBody SoporteExpedicion soporte) {
-		
+
 		datosPersonalesService.actualizarSoporteExpedicion(user, soporte);
 	}
-	
+
 	@GetMapping("mirar-archivo/{codigo}/{user}")
-	public ResponseEntity<InputStreamResource> mirarArchivo(@PathVariable Long codigo, @PathVariable String user, HttpServletResponse response) throws Exception{
+	public ResponseEntity<InputStreamResource> mirarArchivo(@PathVariable Long codigo, @PathVariable String user,
+			HttpServletResponse response) throws Exception {
 		ByteArrayInputStream stream = datosPersonalesService.mirarSoporteExpedicion(codigo, user, response);
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Disposition", "attachment; filename=\" documento.pdf\"");
 
 		return ResponseEntity.ok().headers(headers).body(new InputStreamResource(stream));
-		
-	}
-	
-	@GetMapping("enviar-email/{email}")
-	public Respuesta enviarEmail(@PathVariable String email, @PathVariable String firma, @PathVariable String nombrePersona, @PathVariable String fecha, @PathVariable String nombre, @PathVariable String correo, @PathVariable String cargo) {
-		
-		return datosPersonalesService.enviarEmailCambioExpedicion(email);
-		
+
 	}
 
 }

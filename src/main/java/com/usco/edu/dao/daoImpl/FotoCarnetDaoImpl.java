@@ -9,7 +9,7 @@ import com.usco.edu.dao.IFotoCarnetDao;
 
 @Repository
 public class FotoCarnetDaoImpl implements IFotoCarnetDao {
-	
+
 	@Autowired
 	@Qualifier("JDBCTemplateConsulta")
 	public JdbcTemplate jdbcTemplate;
@@ -19,6 +19,7 @@ public class FotoCarnetDaoImpl implements IFotoCarnetDao {
 		String sql = "SELECT dbo.getTokenDocumento(?)";
 		return jdbcTemplate.queryForObject(sql, new Object[] { atributos }, String.class);
 	}
+
 	@Override
 	public String obtenerTokenFotoVisualizar(String atributos, String user) {
 		String sql = "SELECT dbo.getTokenDocumento(?) as token";

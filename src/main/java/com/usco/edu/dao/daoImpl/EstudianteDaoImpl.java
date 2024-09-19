@@ -12,12 +12,11 @@ import com.usco.edu.entities.Estudiante;
 import com.usco.edu.resultSetExtractor.EstudianteSetExtractor;
 
 @Repository
-public class EstudianteDaoImpl implements IEstudianteDao{
-	
+public class EstudianteDaoImpl implements IEstudianteDao {
+
 	@Autowired
 	@Qualifier("JDBCTemplateConsulta")
 	public JdbcTemplate jdbcTemplate;
-	
 
 	@Override
 	public List<Estudiante> findByCodigo(String codigo, String userdb) {
@@ -28,11 +27,10 @@ public class EstudianteDaoImpl implements IEstudianteDao{
 				+ "inner join tipo_id ti on p.tii_codigo = ti.tii_codigo "
 				+ "inner join programa pr on e.pro_codigo = pr.pro_codigo "
 				+ "inner join uaa u on pr.uaa_codigo = u.uaa_codigo "
-				+ "inner join sede s on pr.sed_codigo = s.sed_codigo "
-				+ "where e.est_codigo = '" + codigo + "' ";
+				+ "inner join sede s on pr.sed_codigo = s.sed_codigo " + "where e.est_codigo = '" + codigo + "' ";
 		return jdbcTemplate.query(sql, new EstudianteSetExtractor());
 	}
-	
+
 	@Override
 	public List<Estudiante> buscarIdentificacion(String id) {
 		String sql = "Select *, floor((cast(convert(varchar(8),getdate(),112) as int) - cast(convert(varchar(8), p.per_fecha_nacimiento ,112) as int) ) / 10000) as edad from estudiante e "
@@ -41,8 +39,8 @@ public class EstudianteDaoImpl implements IEstudianteDao{
 				+ "inner join tipo_id ti on p.tii_codigo = ti.tii_codigo "
 				+ "inner join programa pr on e.pro_codigo = pr.pro_codigo "
 				+ "inner join uaa u on pr.uaa_codigo = u.uaa_codigo "
-				+ "inner join sede s on pr.sed_codigo = s.sed_codigo "
-				+ "where p.per_identificacion = '" + id + "' order by ins_codigo desc";
+				+ "inner join sede s on pr.sed_codigo = s.sed_codigo " + "where p.per_identificacion = '" + id
+				+ "' order by ins_codigo desc";
 		return jdbcTemplate.query(sql, new EstudianteSetExtractor());
 	}
 

@@ -9,6 +9,6 @@ public interface IGraduadoDao {
 	
 	public List<Graduado> buscarGraduadoPorIdentificacion(String id, String userdb);
 	
-	public List<EstudianteActivo> buscarGraduadoEstudianteActivo(String codigo, String userdb);
+	public List<EstudianteActivo> buscarGraduadoEstudianteActivo(int codigo, String userdb);
 	
 }

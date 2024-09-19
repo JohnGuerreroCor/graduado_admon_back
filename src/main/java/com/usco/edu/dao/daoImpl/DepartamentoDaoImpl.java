@@ -14,9 +14,8 @@ import com.usco.edu.resultSetExtractor.DepartamentoSetExtractor;
 import com.usco.edu.resultSetExtractor.MunicipioSetExtractor;
 
 @Repository
-public class DepartamentoDaoImpl implements IDepartamentoDao{
-	
-	
+public class DepartamentoDaoImpl implements IDepartamentoDao {
+
 	@Autowired
 	@Qualifier("JDBCTemplateConsulta")
 	public JdbcTemplate jdbcTemplate;
@@ -25,14 +24,14 @@ public class DepartamentoDaoImpl implements IDepartamentoDao{
 	public List<Departamento> departamentos(String userdb) {
 
 		String sql = " select * from departamento where pai_codigo = 21";
-		List<Departamento> departamentos =null ;
+		List<Departamento> departamentos = null;
 		try {
 			departamentos = jdbcTemplate.query(sql, new DepartamentoSetExtractor());
-		}catch (Exception e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return departamentos;
 	}
 
@@ -40,32 +39,30 @@ public class DepartamentoDaoImpl implements IDepartamentoDao{
 	public List<Municipio> municipiosbydep(String userdb) {
 
 		String sql = " select * from municipio where dep_codigo = 19";
-		List<Municipio> municipios =null ;
+		List<Municipio> municipios = null;
 		try {
-			municipios = jdbcTemplate.query(sql,new MunicipioSetExtractor());
-		}catch (Exception e) {
+			municipios = jdbcTemplate.query(sql, new MunicipioSetExtractor());
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return municipios;
 	}
-	
+
 	@Override
 	public List<Municipio> municipiosbydepartamento(int codigo, String userdb) {
 
 		String sql = " select * from municipio where dep_codigo = " + codigo + "";
-		List<Municipio> municipios =null ;
+		List<Municipio> municipios = null;
 		try {
-			municipios = jdbcTemplate.query(sql,new MunicipioSetExtractor());
-		}catch (Exception e) {
+			municipios = jdbcTemplate.query(sql, new MunicipioSetExtractor());
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return municipios;
 	}
-	
-
 
 }

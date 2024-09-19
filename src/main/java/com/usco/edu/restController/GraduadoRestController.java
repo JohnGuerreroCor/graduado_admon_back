@@ -1,4 +1,5 @@
 package com.usco.edu.restController;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,19 +15,19 @@ import com.usco.edu.service.IGraduadoService;
 @RestController
 @RequestMapping(path = "graduado")
 public class GraduadoRestController {
-	
+
 	@Autowired
 	IGraduadoService graduadoService;
-	
+
 	@GetMapping(path = "obtener-graduado/{codigo}/{username}")
 	public List<Graduado> buscarGraduadoPorIdentificacion(@PathVariable String codigo, @PathVariable String username) {
 		return graduadoService.buscarGraduadoPorIdentificacion(codigo, username);
 	}
-	
-	
+
 	@GetMapping(path = "obtener-graduado-estudiante-activo/{codigo}/{username}")
-	public List<EstudianteActivo> buscarGraduadoEstudianteActivo(@PathVariable String codigo, @PathVariable String username) {
+	public List<EstudianteActivo> buscarGraduadoEstudianteActivo(@PathVariable int codigo,
+			@PathVariable String username) {
 		return graduadoService.buscarGraduadoEstudianteActivo(codigo, username);
 	}
-	
+
 }
